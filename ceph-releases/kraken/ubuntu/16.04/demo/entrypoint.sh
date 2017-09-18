@@ -390,6 +390,36 @@ ENDHERE
 }
 
 
+#############
+# DEBUGGING #
+#############
+function init_debugging {
+cat <<EOF >>/etc/ceph/${CLUSTER}.conf
+[client.radosgw.gateway]
+  log file = /var/log/ceph/client.radosgw.gateway.log
+  rgw enable usage log = true
+
+[global]
+  debug ms = 5/5
+
+#[mon]
+#        debug mon = 20
+#        debug paxos = 1/5
+#        debug auth = 2
+#
+#[osd]
+#        debug osd = 1/5
+#        debug filestore = 1/5
+#        debug journal = 1
+#        debug monc = 5/20
+#
+#[mds]
+#        debug mds = 1
+#        debug mds balancer = 1
+EOF
+}
+
+
 ##############
 # RBD MIRROR #
 ##############
@@ -430,5 +460,6 @@ bootstrap_rest_api
 #bootstrap_nfs
 bootstrap_rbd_mirror
 bootstrap_mgr
+init_debugging
 log "SUCCESS"
 exec ceph ${CLI_OPTS} -w
