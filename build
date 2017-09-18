@@ -1,0 +1,5 @@
+#!/bin/bash
+codename=kraken
+
+./generate-dev-env.sh $codename ubuntu 16.04
+docker build -t ceph-debug demo/
